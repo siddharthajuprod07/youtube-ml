@@ -1,0 +1,9 @@
+index="main"
+| table "GRE Score","TOEFL Score","University Rating",SOP,LOR ,CGPA,Research,"Chance of Admit"
+
+index="main"
+| table "GRE Score","TOEFL Score","University Rating",SOP,LOR ,CGPA,Research,"Chance of Admit" | fit LinearRegression fit_intercept=true "Chance of Admit" from "GRE Score" "TOEFL Score" "University Rating" "SOP" "LOR" "CGPA" "Research" into "_exp_draft_1e8e373117294050933c82b8fc4287a3"
+
+index="main"
+| table "GRE Score","TOEFL Score","University Rating",SOP,LOR ,CGPA,Research,"Chance of Admit"
+| apply chance_of_admit_estimator
