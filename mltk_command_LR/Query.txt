@@ -1,0 +1,76 @@
+index=main 
+| table "GRE Score","TOEFL Score","University Rating",SOP,LOR ,CGPA,Research,"Chance of Admit"
+
+--sample
+index=main 
+| table "Serial No","GRE Score","TOEFL Score","University Rating",SOP,LOR ,CGPA,Research,"Chance of Admit"
+| sample ratio=0.9
+
+index=main 
+| table "Serial No","GRE Score","TOEFL Score","University Rating",SOP,LOR ,CGPA,Research,"Chance of Admit"
+| sample count=400
+
+index=main 
+| table "Serial No","GRE Score","TOEFL Score","University Rating",SOP,LOR ,CGPA,Research,"Chance of Admit"
+| sample count=100 by Research
+| where Research=0
+
+index=main 
+| table "Serial No","GRE Score","TOEFL Score","University Rating",SOP,LOR ,CGPA,Research,"Chance of Admit"
+| sample proportional="Research"
+
+index=main 
+| table "Serial No","GRE Score","TOEFL Score","University Rating",SOP,LOR ,CGPA,Research,"Chance of Admit"
+| sample proportional="Research" inverse
+
+index=main 
+| table "Serial No","GRE Score","TOEFL Score","University Rating",SOP,LOR ,CGPA,Research,"Chance of Admit"
+| sample partitions=2
+| where partition_number = 1
+
+index=main 
+| table "Serial No","GRE Score","TOEFL Score","University Rating",SOP,LOR ,CGPA,Research,"Chance of Admit"
+| sample partitions=2 fieldname=partition
+
+index=main 
+| table "Serial No","GRE Score","TOEFL Score","University Rating",SOP,LOR ,CGPA,Research,"Chance of Admit"
+| sample partitions=3 seed=7
+
+--fit
+
+Supervised Syntax:
+    fit <algorithm> (<option_name>=<option_value>)* (<response-field>) from (<explanatory-field>)+
+
+for LR :
+fit LinearRegression <field_to_predict> from <explanatory_fields> [into <model name>]
+	[fit_intercept=<true|false>] [normalize=<true|false>]
+
+index=main 
+| table "GRE Score","TOEFL Score","University Rating",SOP,LOR ,CGPA,Research,"Chance of Admit"
+| sample ratio=0.8
+| fit LinearRegression fit_intercept=true "Chance of Admit" from "GRE Score","TOEFL Score","University Rating",SOP,LOR ,CGPA,Research into test_model
+
+--score
+<<<pending>>>
+
+
+--apply
+
+   apply <model_name> (as <output_field>)?
+
+index=main 
+| table "GRE Score","TOEFL Score","University Rating",SOP,LOR ,CGPA,Research,"Chance of Admit"
+| sample ratio=0.2
+| apply test_model as predicted_chances_of_admit
+
+--summary
+
+| summary test_model
+
+--listmodels
+
+| listmodels
+
+--deletemodel
+
+| deletemodel test_model
