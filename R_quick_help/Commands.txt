@@ -1,0 +1,23 @@
+--help regarding functions
+?sqrt
+help(sqrt)
+
+--help regarding operators
+?":"
+
+--help regarding any key word
+??"regression"
+help.search("regression")
+
+--Run the example included in the documentation
+example(sqrt)
+
+--demo
+demo()
+demo(colors)
+
+--package documentation
+install.packages("diagram")
+library(diagram)
+help(package=diagram)
+vignette("diagram")
